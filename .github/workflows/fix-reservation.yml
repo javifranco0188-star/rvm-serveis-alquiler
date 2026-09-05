@@ -1,0 +1,35 @@
+name: Corregir reserva RVM
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/fix-reservation.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corregir lectura de campos del formulario
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old="form.onsubmit=async e=>{e.preventDefault();if(end.value<start.value)return alert('Revisa las fechas');let p={machine_id:mid.value,machine_name:mname.value,customer_name:name.value,customer_phone:phone.value,start_date:start.value,end_date:end.value,notes:notes.value,privacy_accepted:true,terms_accepted:true};"
+          new="form.onsubmit=async e=>{e.preventDefault();const fName=document.getElementById('name').value.trim(),fPhone=document.getElementById('phone').value.trim(),fStart=document.getElementById('start').value,fEnd=document.getElementById('end').value,fNotes=document.getElementById('notes').value.trim(),fMid=document.getElementById('mid').value,fMname=document.getElementById('mname').value;if(fEnd<fStart)return alert('Revisa las fechas');let p={machine_id:fMid,machine_name:fMname,customer_name:fName,customer_phone:fPhone,start_date:fStart,end_date:fEnd,notes:fNotes,privacy_accepted:true,terms_accepted:true};"
+          if old not in s:
+              raise SystemExit('No se encontró el código esperado')
+          s=s.replace(old,new,1)
+          s=s.replace("navigator.serviceWorker.register('sw.js?v=9')","navigator.serviceWorker.register('sw.js?v=10')",1)
+          p.write_text(s)
+          PY
+      - name: Guardar corrección
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Corregir reserva: enviar nombre y datos correctamente"
+          git push

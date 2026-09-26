@@ -1,7 +1,7 @@
-const CACHE='rvm-alquiler-v11';
-const CORE=['./','./index.html','./manifest.webmanifest','./admin.html','./admin-reviews.html'];
+const CACHE='rvm-alquiler-v12';
+const CORE=['/','/index.html','/manifest.webmanifest','/icon-192.png','/icon-512.png','/admin.html','/admin-reviews.html'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response}).catch(()=>caches.match(event.request))) });
-self.addEventListener('push',event=>{let data={};try{data=event.data?event.data.json():{}}catch{}const title=data.title||'RVM Alquiler';const options={body:data.body||'Tienes una nueva reserva.',icon:'./icon.svg',badge:'./icon.svg',tag:data.tag||'rvm-reserva',renotify:true,data:{url:data.url||'/admin.html?tab=reservas'}};event.waitUntil(self.registration.showNotification(title,options))});
+self.addEventListener('push',event=>{let data={};try{data=event.data?event.data.json():{}}catch{}const title=data.title||'RVM Alquiler';const options={body:data.body||'Tienes una nueva reserva.',icon:'/icon-192.png',badge:'/icon-192.png',tag:data.tag||'rvm-reserva',renotify:true,data:{url:data.url||'/admin.html?tab=reservas'}};event.waitUntil(self.registration.showNotification(title,options))});
 self.addEventListener('notificationclick',event=>{event.notification.close();const target=new URL(event.notification.data?.url||'/admin.html?tab=reservas',self.location.origin).href;event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(list=>{for(const client of list){if(client.url.startsWith(self.location.origin)&&'focus'in client){client.navigate(target);return client.focus()}}return clients.openWindow(target)}))});

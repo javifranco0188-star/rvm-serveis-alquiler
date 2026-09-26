@@ -1,9 +1,26 @@
 {
+  "id": "/",
   "name": "RVM Serveis · Alquiler",
   "short_name": "RVM Alquiler",
-  "start_url": "./",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#06111f",
   "theme_color": "#06111f",
-  "description": "Catálogo, reservas y reseñas verificadas de maquinaria de alquiler en Valencia."
+  "description": "Catálogo, reservas y reseñas verificadas de maquinaria de alquiler en Valencia.",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-reviews.html
+
+Sitemap: https://rvmalquiler.es/sitemap.xml

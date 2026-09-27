@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#06111f">
   <meta name="description" content="Alquiler de maquinaria profesional en Valencia. Generadores, motoazadas, motosierras, construcción, agricultura y jardín.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://rvmalquiler.es/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="RVM Serveis Alquiler">
+  <meta property="og:title" content="RVM Serveis · Alquiler de maquinaria en Valencia">
+  <meta property="og:description" content="Alquiler de maquinaria profesional en Catarroja y Valencia. Consulta el catálogo, disponibilidad, precios y reserva online.">
+  <meta property="og:url" content="https://rvmalquiler.es/">
+  <meta name="twitter:card" content="summary">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
   <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png">
@@ -14,6 +23,26 @@
   <link rel="stylesheet" href="catalog-new-c.css?v=9">
   <link rel="stylesheet" href="catalog-new-d.css?v=9">
   <title>RVM Serveis · Alquiler de maquinaria en Valencia</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "RVM Serveis",
+    "url": "https://rvmalquiler.es/",
+    "description": "Alquiler, venta y reparación de maquinaria profesional en Catarroja y Valencia.",
+    "telephone": "+34678642660",
+    "email": "rvm.serveis@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle 27, número 207A",
+      "addressLocality": "Catarroja",
+      "addressRegion": "Valencia",
+      "addressCountry": "ES"
+    },
+    "areaServed": "Valencia, España",
+    "sameAs": ["https://www.rvmalquiler.es/"]
+  }
+  </script>
   <style>
     :root{--navy:#06111f;--blue:#0876d8;--red:#d71820;--white:#fff;--muted:#607083;--line:#d8e1eb;--soft:#eef4fa;--green:#25d366}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#e8f1f9 0,#f8fbfd 28%,#e6eef6 100%);color:#0b1220;min-height:100vh}button,input,textarea{font:inherit}button,a{touch-action:manipulation}.wrap{max-width:1160px;margin:auto;padding:0 18px}
@@ -85,7 +114,7 @@
     async function loadPublicStats(){try{const r=await fetch(SB+'/rest/v1/site_stats?select=page_views,rental_count&id=eq.1',{headers:apiHeaders});const rows=await r.json();if(r.ok&&rows[0]){rentalCount.textContent=formatCount(rows[0].rental_count)+'+';viewCount.textContent=formatCount(rows[0].page_views)}}catch{}}
     async function loadReviews(){try{const r=await fetch(SB+'/rest/v1/reviews?select=id,customer_name,comment,rating,created_at&approved=eq.true&order=created_at.desc&limit=12',{headers:apiHeaders});const rows=await r.json();if(!r.ok)throw new Error();reviewCount.textContent=formatCount(rows.length);reviewsGrid.innerHTML=rows.length?rows.map(x=>`<article class="review-card"><div class="review-stars" aria-label="${x.rating} de 5 estrellas">${'★'.repeat(x.rating)}${'☆'.repeat(5-x.rating)}</div><blockquote>“${esc(x.comment)}”</blockquote><cite>${esc(x.customer_name)}</cite></article>`).join(''):'<div class="empty-reviews">Las primeras reseñas verificadas aparecerán aquí.</div>'}catch{reviewsGrid.innerHTML='<div class="empty-reviews">No se pudieron cargar las reseñas en este momento.</div>'}}
     reviewForm.onsubmit=async e=>{e.preventDefault();reviewStatus.className='form-status';reviewStatus.style.display='block';reviewStatus.textContent='Enviando…';try{const payload={customer_name:reviewName.value.trim(),comment:reviewComment.value.trim(),rating:Number(reviewRating.value),approved:false};const r=await fetch(SB+'/rest/v1/reviews',{method:'POST',headers:{...apiHeaders,Prefer:'return=minimal'},body:JSON.stringify(payload)});if(!r.ok)throw new Error();reviewStatus.className='form-status ok';reviewStatus.textContent='Gracias. Tu reseña quedó pendiente de aprobación.';reviewForm.reset()}catch{reviewStatus.className='form-status err';reviewStatus.textContent='No se pudo enviar la reseña. Inténtalo de nuevo.'}};
-    if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js?v=12',{scope:'/'});registerDailyVisit().then(loadPublicStats);loadPublicStats();loadReviews();load();
+    if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js?v=13',{scope:'/'});registerDailyVisit().then(loadPublicStats);loadPublicStats();loadReviews();load();
   </script>
 </body>
 </html>

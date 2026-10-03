@@ -64,7 +64,7 @@ Deno.serve(async (request: Request) => {
     }
     const rows = await response.json() as Array<Record<string, unknown>>;
     const lines = [
-      'id,title,description,availability,condition,price,link,image_link,brand,product_type'
+      'id,title,description,availability,condition,price,link,image_link,brand,product_type,availability_circle_origin.latitude,availability_circle_origin.longitude,availability_circle_radius,availability_circle_radius_unit,address'
     ];
 
     for (const row of rows) {
@@ -100,7 +100,12 @@ Deno.serve(async (request: Request) => {
         link.toString(),
         image,
         'RVM Serveis',
-        'Alquiler > ' + String(row.category ?? 'Maquinaria')
+        'Alquiler > ' + String(row.category ?? 'Maquinaria'),
+        '39.3938082',
+        '-0.3954478',
+        '30',
+        'km',
+        'Calle 27, 207A, 46470 Catarroja, Valencia, España'
       ].map(csv).join(','));
     }
 

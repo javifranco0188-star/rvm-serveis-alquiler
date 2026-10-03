@@ -145,7 +145,7 @@
     const photoTag=m=>{const u=photo(m);return u?`<img src="${esc(u)}" alt="${esc(m.name)}" loading="lazy" decoding="async" onerror="this.remove()">`:''};
     function cls(n){let i=OLD.indexOf(n);if(i>=0)return'p'+i;i=NEW.indexOf(n);return i>=0?'n'+i:''}
     function go(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
-    const productPageSlug=s=>String(s||'').normalize('NFD').replace(/\\p{Diacritic}/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const productPageSlug=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
     function productUrl(m){return '/maquinaria/'+productPageSlug(m.name)+'/'}
     function render(cat='Todos'){
       const list=cat==='Todos'?machines:machines.filter(m=>m.category===cat);

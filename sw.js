@@ -1,4 +1,4 @@
-const CACHE='rvm-alquiler-v17';
+const CACHE='rvm-alquiler-v18';
 const CORE=['/','/index.html','/manifest.webmanifest','/icon-192.png','/icon-512.png','/admin.html','/admin-reviews.html'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

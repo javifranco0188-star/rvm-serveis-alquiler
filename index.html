@@ -71,18 +71,23 @@
     .rvm-cookie-settings{background:transparent;color:inherit;margin-top:10px;font-size:13px}
     @media(max-width:600px){.rvm-cookie-notice{inset:auto 10px 10px;padding:15px}.rvm-cookie-actions{display:grid;grid-template-columns:1fr 1fr}.rvm-cookie-actions button{padding:9px 8px}}
   </style>
+  <template id="rvmTanganicaPixelTemplate">
+    <!-- Tanganica pixel -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TRS5RSN');</script>
+    <!-- End Tanganica pixel -->
+  </template>
   <script>
     (function(w,d){
       var key='rvm_cookie_measurement_consent';
       function loadTanganica(){
         if(w.__rvmTanganicaLoaded)return;
+        var template=d.getElementById('rvmTanganicaPixelTemplate');
+        var source=template&&template.content.querySelector('script');
+        if(!source)return;
         w.__rvmTanganicaLoaded=true;
-        w.dataLayer=w.dataLayer||[];
-        w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-        var first=d.getElementsByTagName('script')[0],script=d.createElement('script');
-        script.async=true;
-        script.src='https://www.googletagmanager.com/gtm.js?id=GTM-TRS5RSN';
-        first.parentNode.insertBefore(script,first);
+        var script=d.createElement('script');
+        script.textContent=source.textContent;
+        d.head.appendChild(script);
       }
       w.rvmCookieChoice=function(choice){
         try{w.localStorage.setItem(key,choice);}catch(e){}
